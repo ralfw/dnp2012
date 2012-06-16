@@ -1,0 +1,14 @@
+﻿/
+//.in, Transform
+//Transform, .out
+
+.run, get_text
+get_text.exit, .exit
+get_text.text, Transform
+Transform, display_text
+display_text, get_text
+
+Transform
+., toUpper
+toUpper, reverse
+reverse, .

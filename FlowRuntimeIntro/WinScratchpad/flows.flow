@@ -1,0 +1,8 @@
+﻿/
+.transform_text, Transform
+Transform, display
+
+Transform
+., toUpper
+toUpper, reverse
+reverse, .
