@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Windows.Forms;
 using npantarhei.runtime;
 
@@ -22,15 +23,16 @@ namespace WinScratchpad
 
             config.AddStreamsFrom("WinScratchpad.flows.flow", Assembly.GetExecutingAssembly());
 
-            config.AddFunc<string, string>("toUpper", Program.ToUpper);
+            config.AddFunc<string, string>("toUpper", Program.ToUpper).MakeParallel();
             config.AddFunc<string, string>("reverse", Program.Reverse);
 
             var dlg = new Dialog();
-            config.AddAction<string>("display", dlg.Display).MakeSync();
+            config.AddAction<Correlation>("display", dlg.Display).MakeSync();
+            config.AddOperation(new Correlator());
 
             using (var fr = new FlowRuntime(config))
             {
-                dlg.Transform_text += fr.CreateEventProcessor<string>(".transform_text");
+                dlg.Transform_text += fr.CreateEventProcessor<Correlation>(".transform_text");
 
                 Application.Run(dlg);
             }
@@ -38,6 +40,7 @@ namespace WinScratchpad
 
         static string ToUpper(string text)
         {
+            Thread.Sleep((DateTime.Now.Second % 5 + 1)*1000);
             return text.ToUpper();
         }
 

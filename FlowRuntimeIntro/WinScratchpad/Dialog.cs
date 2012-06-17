@@ -19,16 +19,31 @@ namespace WinScratchpad
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Transform_text(textBox1.Text);
+            var corr = new Correlation(textBox1.Text);
+
+            var lvi = new ListViewItem(textBox1.Text);
+            lvi.Tag = corr.Id;
+            lvi.BackColor = Color.LightYellow;
+            listView1.Items.Insert(0, lvi);
+
+            Transform_text(corr);
         }
 
 
-        public void Display(string text)
+        public void Display(Correlation corr)
         {
-            listBox1.Items.Insert(0, text);
+            for(var i =0; i<listView1.Items.Count; i++)
+            {
+                var lvi = listView1.Items[i];
+                if ((Guid)lvi.Tag == corr.Id)
+                {
+                    lvi.SubItems.Add((string) corr.Data);
+                    lvi.BackColor = Color.LightGreen;
+                }
+            }
         }
 
 
-        public event Action<string> Transform_text;
+        public event Action<Correlation> Transform_text;
     }
 }

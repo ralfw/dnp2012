@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Correlator.cs" />
     <Compile Include="Dialog.cs">
       <SubType>Form</SubType>
     </Compile>

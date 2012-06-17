@@ -1,6 +1,8 @@
 ﻿/
-.transform_text, Transform
-Transform, display
+.transform_text, correlator.encode
+correlator.encoded, Transform
+Transform, correlator.decode
+correlator.decoded, display
 
 Transform
 ., toUpper
