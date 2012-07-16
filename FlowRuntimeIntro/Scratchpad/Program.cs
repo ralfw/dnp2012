@@ -54,6 +54,11 @@ namespace Scratchpad
                 fr.Process(".run");
                 fr.WaitForResult();
             }
+
+
+
+            var f = new F(new A(), new S(), new T());
+            var g = new G(new A(), new O(), new P());
         }
 
 
@@ -141,4 +146,139 @@ namespace Scratchpad
 
         public event Action<string> Result;
     }
+
+
+    class Flows
+    {
+        private IOperations op;
+
+        public Flows(IOperations op)
+        {
+            this.op = op;
+        }
+
+        public void F()
+        {
+            var x = s();
+            var y = op.a(x);
+            t(y);
+        }
+
+        private int s()
+        {
+            return 0;
+        }
+
+        void t(int y) {}
+
+        
+        public void G()
+        {
+            var x = o();
+            var y = op.a(x);
+            p(y);
+        }
+
+
+        private int o()
+        {
+            return 0;
+        }
+
+        void p(int y) { }
+    }
+
+    interface IOperations
+    {
+        int a(int x);
+    }
+
+
+    interface IA
+    {
+        void Process(int x);
+        event Action<int> Result;
+    }
+
+    class A : IA
+    {
+        public void Process(int x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public event Action<int> Result;
+    }
+
+    interface IS
+    {
+        void Process();
+        event Action<int> Result;
+    }
+    class S : IS
+    {
+        public void Process()
+        {
+            throw new NotImplementedException();
+        }
+
+        public event Action<int> Result;
+    }
+    interface IT
+    {
+        void Process(int y);
+    }
+
+    class T : IT {
+        public void Process(int y)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    interface IO
+    {
+        void Process();
+        event Action<int> Result;
+    }
+
+    class O : IO {
+        public void Process()
+        {
+            throw new NotImplementedException();
+        }
+
+        public event Action<int> Result;
+    }
+
+    interface IP
+    {
+        void Process(int y);
+    }
+
+    class P : IP {
+        public void Process(int y)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    class F
+    {
+        public F(IA a, IS s, IT t)
+        {
+            s.Result += a.Process;
+            a.Result += t.Process;
+        }
+    }
+
+    class G
+    {
+        public G(IA a, IO o, IP p)
+        {
+            o.Result += a.Process;
+            a.Result += p.Process;
+        }
+    }
+
 }

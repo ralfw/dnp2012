@@ -1,0 +1,17 @@
+﻿ /
+.berechnen, pushc
+pushc, Operation_ausfuehren.in
+pushc.exception, fehler_melden
+Operation_ausfuehren.out, popc
+popc, ergebnis_anzeigen
+
+.error, fehler_melden
+
+Operation_ausfuehren
+.in, operation_speichern
+operation_speichern, akku.laden
+akku.operanden, vormalige_operation_laden
+vormalige_operation_laden, operanden_verknuepfen
+operanden_verknuepfen, ergebnis_zwischenspeichern
+akku.kein_zwischenergebnis, ergebnis_zwischenspeichern
+ergebnis_zwischenspeichern, .out

@@ -5,6 +5,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scratchpad", "Scratchpad\Sc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinScratchpad", "WinScratchpad\WinScratchpad.csproj", "{A86C041E-BDAF-445B-963A-563C855C60FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taschenrechner", "Taschenrechner\Taschenrechner.csproj", "{4B5AFEC2-7721-4A52-A4F1-FACEC5DE0FBE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scratchpads", "Scratchpads", "{2D19B94E-6687-4C67-B843-965F0D42303E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -19,8 +23,16 @@ Global
 		{A86C041E-BDAF-445B-963A-563C855C60FA}.Debug|x86.Build.0 = Debug|x86
 		{A86C041E-BDAF-445B-963A-563C855C60FA}.Release|x86.ActiveCfg = Release|x86
 		{A86C041E-BDAF-445B-963A-563C855C60FA}.Release|x86.Build.0 = Release|x86
+		{4B5AFEC2-7721-4A52-A4F1-FACEC5DE0FBE}.Debug|x86.ActiveCfg = Debug|x86
+		{4B5AFEC2-7721-4A52-A4F1-FACEC5DE0FBE}.Debug|x86.Build.0 = Debug|x86
+		{4B5AFEC2-7721-4A52-A4F1-FACEC5DE0FBE}.Release|x86.ActiveCfg = Release|x86
+		{4B5AFEC2-7721-4A52-A4F1-FACEC5DE0FBE}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DE7002A5-F531-4616-902A-18AA06BA0356} = {2D19B94E-6687-4C67-B843-965F0D42303E}
+		{A86C041E-BDAF-445B-963A-563C855C60FA} = {2D19B94E-6687-4C67-B843-965F0D42303E}
 	EndGlobalSection
 EndGlobal
