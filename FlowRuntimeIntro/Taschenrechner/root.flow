@@ -1,11 +1,11 @@
 ﻿ /
-.berechnen, pushc
+ui.berechnen, pushc
 pushc, Operation_ausfuehren.in
-pushc.exception, fehler_melden
+pushc.exception, ui.fehler_melden
 Operation_ausfuehren.out, popc
-popc, ergebnis_anzeigen
+popc, ui.ergebnis_anzeigen
 
-.error, fehler_melden
+.error, ui.fehler_melden
 
 Operation_ausfuehren
 .in, operation_speichern

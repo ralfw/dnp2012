@@ -61,6 +61,7 @@ namespace Taschenrechner
         }
 
 
+        [DispatchedMethod]
         public void Ergebnis_anzeigen(int ergebnis)
         {
             txtErgebnis.Text = ergebnis.ToString();
@@ -68,6 +69,7 @@ namespace Taschenrechner
             txtErgebnis.Focus();
         }
 
+        //[DispatchedMethod]
         public void Fehler_melden(FlowRuntimeException ex)
         {
             MessageBox.Show(string.Format("Es ist ein Fehler aufgetreten:\n{0}\n\nAuslösende Nachricht:\n{1}", ex.InnerException.Message, ex.Context), "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
