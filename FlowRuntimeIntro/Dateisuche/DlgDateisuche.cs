@@ -16,6 +16,8 @@ namespace Dateisuche
         public DlgDateisuche()
         {
             InitializeComponent();
+
+            txtWurzelpfad.Text = Environment.CurrentDirectory;
         }
 
  
@@ -53,6 +55,13 @@ namespace Dateisuche
 
             var auftragNode = Finde_Knoten_zum_Suchauftrag(dateifund.SuchauftragId);
             auftragNode.Nodes.Add(dateifundtext);
+        }
+
+
+        [DispatchedMethod]
+        public void Fehler_anzeigen(FlowRuntimeException ex)
+        {
+            MessageBox.Show(ex.ToString(), "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         

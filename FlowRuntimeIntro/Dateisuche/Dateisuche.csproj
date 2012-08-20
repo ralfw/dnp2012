@@ -37,6 +37,9 @@
     <Reference Include="npantarhei.runtime">
       <HintPath>..\lib\npantarhei.runtime.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -56,10 +59,14 @@
     <Compile Include="DlgDateisuche.Designer.cs">
       <DependentUpon>DlgDateisuche.cs</DependentUpon>
     </Compile>
+    <Compile Include="Operationen\Datei.cs" />
+    <Compile Include="Operationen\Dateisystem.cs" />
+    <Compile Include="Operationen\Suchmaschine.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Daten\Statusmeldung.cs" />
     <Compile Include="Daten\Suchanfrage.cs" />
+    <Compile Include="Tests\test_Dateisystem.cs" />
     <EmbeddedResource Include="DlgDateisuche.resx">
       <DependentUpon>DlgDateisuche.cs</DependentUpon>
     </EmbeddedResource>
@@ -83,9 +90,7 @@
     </Compile>
     <EmbeddedResource Include="root.flow" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Operationen\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

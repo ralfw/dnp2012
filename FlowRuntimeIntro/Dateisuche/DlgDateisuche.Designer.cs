@@ -69,7 +69,7 @@
             this.txtAbfrage.Name = "txtAbfrage";
             this.txtAbfrage.Size = new System.Drawing.Size(284, 20);
             this.txtAbfrage.TabIndex = 3;
-            this.txtAbfrage.Text = "3 10 200";
+            this.txtAbfrage.Text = ".exe";
             // 
             // label2
             // 
@@ -82,6 +82,9 @@
             // 
             // tvSuchvorgänge
             // 
+            this.tvSuchvorgänge.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tvSuchvorgänge.Location = new System.Drawing.Point(12, 67);
             this.tvSuchvorgänge.Name = "tvSuchvorgänge";
             this.tvSuchvorgänge.Size = new System.Drawing.Size(432, 244);
