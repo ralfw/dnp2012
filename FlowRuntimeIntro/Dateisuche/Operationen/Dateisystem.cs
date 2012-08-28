@@ -27,9 +27,9 @@ namespace Dateisuche.Operationen
 
             dateipfade.ToList().ForEach(dpf => fürJedeDatei(new Tuple<string, string>(id, dpf)));
         }
- 
 
-        [ParallelMethod]
+
+        [ParallelMethod("Dateisuche.Operationen.Dateisystem")] // Eigener Thread Pool, damit mehrere Enummerationen gleichzeitig stattfinden können
         public void Enummerieren(Tuple<string,string> input)
         {
             Dateien_enummerieren(input, Datei);

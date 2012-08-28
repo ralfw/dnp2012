@@ -9,7 +9,7 @@ namespace Dateisuche.Operationen
 {
     class Datei
     {
-        [ParallelMethod]
+        [ParallelMethod("Dateisuche.Operationen.Datei")]
         public void Laden(Tuple<string, string> input)
         {
             var id = input.Item1;
