@@ -32,11 +32,11 @@ namespace Dateisuche
                             .AddStreamsFrom("Dateisuche.root.flow", Assembly.GetExecutingAssembly())
 
                             .AddEventBasedComponent("gui", gui)
+                            .AddEventBasedComponent("dateisystem", dateisystem)
+                            .AddEventBasedComponent("datei", datei)
+
                             .AddFunc<Suchanfrage, Tuple<string, string>>("Suchvorgang_starten", suchmaschine.Suchvorgang_starten)
-                            .AddAction<Tuple<string, string>, Tuple<string, string>>("Dateien_enummerieren", dateisystem.Dateien_enummerieren)
-                                .MakeParallel()
-                            .AddFunc<Tuple<string, string>, Tuple<string, FileInfo>>("Datei_laden", datei.Laden)
-                                .MakeParallel()
+
                             .AddAction<Tuple<string, FileInfo>, Statusmeldung, Tuple<string, FileInfo>>("Pruefung_registrieren", suchmaschine.Prüfung_registrieren)
                             .AddFunc<Tuple<string, FileInfo>, Tuple<string, FileInfo, string>>("Abfrage_beimischen", suchmaschine.Abfrage_beimischen)
                             .AddAction<Tuple<string, FileInfo, string>, Tuple<string, FileInfo>>("Filtern", suchmaschine.Filtern)

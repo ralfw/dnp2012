@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using npantarhei.runtime.contract;
 
 namespace Dateisuche.Operationen
 {
@@ -25,6 +26,15 @@ namespace Dateisuche.Operationen
             var dateipfade = Directory.GetFiles(wurzelpfad, _dateinamenschablone, SearchOption.AllDirectories);
 
             dateipfade.ToList().ForEach(dpf => fürJedeDatei(new Tuple<string, string>(id, dpf)));
-        } 
+        }
+ 
+
+        [ParallelMethod]
+        public void Enummerieren(Tuple<string,string> input)
+        {
+            Dateien_enummerieren(input, Datei);
+        }
+
+        public event Action<Tuple<string, string>> Datei;
     }
 }

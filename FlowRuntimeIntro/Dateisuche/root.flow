@@ -6,9 +6,9 @@ Dateisuche.gefunden, gui.Dateifund_anzeigen
 
 Dateisuche
 ., Suchvorgang_starten
-Suchvorgang_starten, Dateien_enummerieren
-Dateien_enummerieren, Datei_laden
-Datei_laden, Datei_pruefen
+Suchvorgang_starten, dateisystem.Enummerieren
+dateisystem.Datei, datei.Laden
+datei.Geladen, Datei_pruefen
 Datei_pruefen.geprueft, .geprueft
 Datei_pruefen.gefunden, .gefunden
 
