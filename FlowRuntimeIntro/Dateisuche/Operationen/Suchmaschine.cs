@@ -36,7 +36,7 @@ namespace Dateisuche.Operationen
         } 
 
 
-        public void Prüfung_registrieren(Tuple<string, FileInfo> input, Action<Statusmeldung> melden, Action<Tuple<string, FileInfo>> weitermachen)
+        public void Pruefung_registrieren(Tuple<string, FileInfo> input)
         {
             var suchvorgang = _suchvorgänge[input.Item1];
             suchvorgang.DateienGeprüft++;
@@ -50,9 +50,8 @@ namespace Dateisuche.Operationen
                                  InBearbeitung = suchvorgang.InBearbeitung,
                                  Verzeichnispfad = input.Item2.DirectoryName
                              };
-            melden(status);
-
-            weitermachen(input);
+            Statusupdate(status);
+            Durchsuchen(input);
         }
 
 
@@ -74,7 +73,7 @@ namespace Dateisuche.Operationen
         } 
 
 
-        public void Fund_registrieren(Tuple<string, FileInfo> input, Action<Statusmeldung> melden, Action<Dateifund> gefunden)
+        public void Fund_registrieren(Tuple<string, FileInfo> input)
         {
             var suchvorgang = _suchvorgänge[input.Item1];
             suchvorgang.DateienGefunden++;
@@ -88,7 +87,7 @@ namespace Dateisuche.Operationen
                 InBearbeitung = suchvorgang.InBearbeitung,
                 Verzeichnispfad = input.Item2.DirectoryName
             };
-            melden(status);
+            Statusupdate(status);
 
             var datei = input.Item2;
             var fund = new Dateifund
@@ -98,8 +97,13 @@ namespace Dateisuche.Operationen
                                Veränderungsdatum = datei.LastWriteTime,
                                Dateipfad = datei.DirectoryName
                            };
-            gefunden(fund);
+            Gefunden(fund);
         }
+
+
+        public event Action<Statusmeldung> Statusupdate;
+        public event Action<Tuple<string, FileInfo>> Durchsuchen;
+        public event Action<Dateifund> Gefunden;
     }
 
 

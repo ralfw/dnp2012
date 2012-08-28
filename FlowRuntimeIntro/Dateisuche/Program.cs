@@ -32,20 +32,24 @@ namespace Dateisuche
                             .AddStreamsFrom("Dateisuche.root.flow", Assembly.GetExecutingAssembly())
 
                             .AddEventBasedComponent("gui", gui)
+                            .AddEventBasedComponent("dateisystem", dateisystem)
+                            .AddEventBasedComponent("datei", datei)
+                            .AddEventBasedComponent("suchmaschine", suchmaschine)
+
                             .AddFunc<Suchanfrage, Tuple<string, string>>("Suchvorgang_starten", suchmaschine.Suchvorgang_starten)
-                            .AddAction<Tuple<string, string>, Tuple<string, string>>("Dateien_enummerieren", dateisystem.Dateien_enummerieren)
-                                .MakeParallel()
-                            .AddFunc<Tuple<string, string>, Tuple<string, FileInfo>>("Datei_laden", datei.Laden)
-                                .MakeParallel()
-                            .AddAction<Tuple<string, FileInfo>, Statusmeldung, Tuple<string, FileInfo>>("Pruefung_registrieren", suchmaschine.Prüfung_registrieren)
+                            .AddAction<Tuple<string,string>>("Dateien_enummerieren", dateisystem.Dateien_enummerieren)
+                                //.MakeAsync("Enummerieren2")
+                            .AddAction<Tuple<string, string>>("Laden", datei.Laden)
+                                //.MakeAsync("Laden2")
                             .AddFunc<Tuple<string, FileInfo>, Tuple<string, FileInfo, string>>("Abfrage_beimischen", suchmaschine.Abfrage_beimischen)
                             .AddAction<Tuple<string, FileInfo, string>, Tuple<string, FileInfo>>("Filtern", suchmaschine.Filtern)
-                                .MakeParallel()
-                            .AddAction<Tuple<string, FileInfo>, Statusmeldung, Dateifund>("Fund_registrieren", suchmaschine.Fund_registrieren);
+                               ;//.MakeAsync("Filtern");
 
             using (var fr = new FlowRuntime(config))
             {
-                fr.Message += Console.WriteLine;
+                Log.Create("log.txt");
+                fr.Message += _ => Log.Write(_.ToString());
+
                 fr.UnhandledException += fr.CreateEventProcessor<FlowRuntimeException>(".error");
 
                 Application.Run(gui);

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using npantarhei.runtime.contract;
 
 namespace Dateisuche.Operationen
 {
-    class Dateisystem
+    public class Dateisystem
     {
         private readonly string _dateinamenschablone;
 
@@ -17,14 +18,22 @@ namespace Dateisuche.Operationen
         }
 
 
-        public void Dateien_enummerieren(Tuple<string,string> input, Action<Tuple<string,string>> fürJedeDatei)
+        //[AsyncMethod("Enummerieren")]
+        public void Dateien_enummerieren(Tuple<string,string> input)
         {
             var id = input.Item1;
             var wurzelpfad = input.Item2;
 
             var dateipfade = Directory.GetFiles(wurzelpfad, _dateinamenschablone, SearchOption.AllDirectories);
 
-            dateipfade.ToList().ForEach(dpf => fürJedeDatei(new Tuple<string, string>(id, dpf)));
-        } 
+            dateipfade.ToList().ForEach(dpf =>
+                                            {
+                                                Log.Write(dpf);
+                                                Datei(new Tuple<string, string>(id, dpf));
+                                            });
+        }
+
+
+        public event Action<Tuple<string, string>> Datei;
     }
 }

@@ -16,7 +16,8 @@ namespace Dateisuche.Tests
             var sut = new Dateisystem("*.cs");
 
             var results = new List<Tuple<string, string>>();
-            sut.Dateien_enummerieren(new Tuple<string, string>("x", @"..\.."), results.Add);
+            sut.Datei += results.Add;
+            sut.Dateien_enummerieren(new Tuple<string, string>("x", @"..\.."));
 
             Assert.AreEqual("x", results[0].Item1);
             Assert.LessOrEqual(13, results.Count);

@@ -1,8 +1,0 @@
-﻿/
-.in, Transform
-Transform, .out
-
-Transform
-., toUpper
-toUpper, reverse
-reverse, .

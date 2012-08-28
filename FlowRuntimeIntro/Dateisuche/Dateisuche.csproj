@@ -59,6 +59,7 @@
     <Compile Include="DlgDateisuche.Designer.cs">
       <DependentUpon>DlgDateisuche.cs</DependentUpon>
     </Compile>
+    <Compile Include="Log.cs" />
     <Compile Include="Operationen\Datei.cs" />
     <Compile Include="Operationen\Dateisystem.cs" />
     <Compile Include="Operationen\Suchmaschine.cs" />
