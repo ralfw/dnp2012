@@ -6,18 +6,17 @@ Dateisuche.gefunden, gui.Dateifund_anzeigen
 
 Dateisuche
 ., Suchvorgang_starten
-#Suchvorgang_starten, dateisystem.Dateien_enummerieren
 Suchvorgang_starten, Dateien_enummerieren
-#dateisystem.Datei, datei.Laden
-dateisystem.Datei, Laden
-datei.Geladen, Datei_pruefen
+Dateien_enummerieren, Datei_laden
+Datei_laden, Datei_pruefen
 Datei_pruefen.geprueft, .geprueft
 Datei_pruefen.gefunden, .gefunden
 
 Datei_pruefen
-., suchmaschine.Pruefung_registrieren
-suchmaschine.Statusupdate, .geprueft
-suchmaschine.Durchsuchen, Abfrage_beimischen
+., Pruefung_registrieren
+Pruefung_registrieren.out0, .geprueft
+Pruefung_registrieren.out1, Abfrage_beimischen
 Abfrage_beimischen, Filtern
-Filtern, suchmaschine.Fund_registrieren
-suchmaschine.Gefunden, .gefunden
+Filtern, Fund_registrieren
+Fund_registrieren.out0, .geprueft
+Fund_registrieren.out1, .gefunden
