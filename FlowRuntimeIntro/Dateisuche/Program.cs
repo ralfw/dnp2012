@@ -36,19 +36,16 @@ namespace Dateisuche
                             .AddEventBasedComponent("datei", datei)
 
                             .AddFunc<Suchanfrage, Tuple<string, string>>("Suchvorgang_starten", suchmaschine.Suchvorgang_starten)
-                                .MakeAsync("s")
 
-                            .AddAction<Tuple<string, FileInfo>, Statusmeldung, Tuple<string, FileInfo>>("Pruefung_registrieren", suchmaschine.Prüfung_registrieren)
-                                .MakeParallel("Dateisuche.Suchmaschine.Prüfung_registrieren")
+                            .AddAction<Tuple<string, string>, Statusmeldung, Tuple<string, string>>("Pruefung_registrieren", suchmaschine.Prüfung_registrieren)
                             .AddFunc<Tuple<string, FileInfo>, Tuple<string, FileInfo, string>>("Abfrage_beimischen", suchmaschine.Abfrage_beimischen)
-                                .MakeAsync("b")
                             .AddAction<Tuple<string, FileInfo, string>, Tuple<string, FileInfo>>("Filtern", suchmaschine.Filtern)
-                                .MakeParallel("Dateisuche.Suchmaschine.Filtern")
-                            .AddAction<Tuple<string, FileInfo>, Statusmeldung, Dateifund>("Fund_registrieren", suchmaschine.Fund_registrieren)
-                                .MakeAsync("r");
+                            .AddAction<Tuple<string, FileInfo>, Statusmeldung, Dateifund>("Fund_registrieren", suchmaschine.Fund_registrieren);
 
             using (var fr = new FlowRuntime(config))
             {
+                //fr.Throttle(200);
+
                 fr.Message += Console.WriteLine;
                 fr.UnhandledException += fr.CreateEventProcessor<FlowRuntimeException>(".error");
 

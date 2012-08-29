@@ -3,11 +3,10 @@ gui.Dateisuche_starten, Suchvorgang_starten
 .error, gui.Fehler_anzeigen
 
 Suchvorgang_starten, dateisystem.Enummerieren
-dateisystem.Datei, datei.Laden
-datei.Geladen, Pruefung_registrieren
-
+dateisystem.Datei, Pruefung_registrieren
 Pruefung_registrieren.out0, gui.Status_aktualisieren
-Pruefung_registrieren.out1, Abfrage_beimischen
+Pruefung_registrieren.out1, datei.Laden
+datei.Geladen, Abfrage_beimischen
 Abfrage_beimischen, Filtern
 Filtern, Fund_registrieren
 Fund_registrieren.out0, gui.Status_aktualisieren

@@ -33,10 +33,10 @@ namespace Dateisuche.Operationen
                                       });
 
             return new Tuple<string, string>(id, suchanfrage.Wurzelpfad);
-        } 
+        }
 
 
-        public void Prüfung_registrieren(Tuple<string, FileInfo> input, Action<Statusmeldung> melden, Action<Tuple<string, FileInfo>> weitermachen)
+        public void Prüfung_registrieren(Tuple<string, string> input, Action<Statusmeldung> melden, Action<Tuple<string, string>> weitermachen)
         {
             var suchvorgang = _suchvorgänge[input.Item1];
             suchvorgang.DateienGeprüft++;
@@ -48,7 +48,7 @@ namespace Dateisuche.Operationen
                                  DateienGeprüft = suchvorgang.DateienGeprüft,
                                  Abfrage = suchvorgang.Abfrage,
                                  InBearbeitung = suchvorgang.InBearbeitung,
-                                 Verzeichnispfad = input.Item2.DirectoryName
+                                 Verzeichnispfad = Path.GetDirectoryName(input.Item2)
                              };
             melden(status);
 
