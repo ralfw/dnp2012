@@ -36,41 +36,51 @@ namespace Dateisuche.Operationen
         }
 
 
-        public void Prüfung_registrieren(Tuple<string, string> input, Action<Statusmeldung> melden, Action<Tuple<string, string>> weitermachen)
+        public void Prüfung_registrieren(Batch<Tuple<string, string>> batch, Action<Statusmeldung> melden, Action<Batch<Tuple<string, string>>> weitermachen)
         {
-            var suchvorgang = _suchvorgänge[input.Item1];
-            suchvorgang.DateienGeprüft++;
+            if (batch.IsEmpty) return;
+
+            var suchvorgang = _suchvorgänge[batch.Elements[0].Item1];
+            suchvorgang.DateienGeprüft += batch.Elements.Length;
 
             var status = new Statusmeldung
-                             {
-                                 SuchauftragId = input.Item1,
-                                 DateienGefunden =  suchvorgang.DateienGefunden,
-                                 DateienGeprüft = suchvorgang.DateienGeprüft,
-                                 Abfrage = suchvorgang.Abfrage,
-                                 InBearbeitung = suchvorgang.InBearbeitung,
-                                 Verzeichnispfad = Path.GetDirectoryName(input.Item2)
-                             };
+                            {
+                                SuchauftragId = batch.Elements[0].Item1,
+                                DateienGefunden = suchvorgang.DateienGefunden,
+                                DateienGeprüft = suchvorgang.DateienGeprüft,
+                                Abfrage = suchvorgang.Abfrage,
+                                InBearbeitung = suchvorgang.InBearbeitung,
+                                Verzeichnispfad = Path.GetDirectoryName(batch.Elements[0].Item2)
+                            };
             melden(status);
 
-            weitermachen(input);
+            weitermachen(batch);
         }
 
 
-        public Tuple<string, FileInfo, string> Abfrage_beimischen(Tuple<string,FileInfo> input)
+        public Batch<Tuple<string, FileInfo, string>> Abfrage_beimischen(Batch<Tuple<string,FileInfo>> dateien)
         {
-            var suchvorgang = _suchvorgänge[input.Item1];
-
-            return new Tuple<string, FileInfo, string>(input.Item1, input.Item2, suchvorgang.Abfrage);
+            var filteraufträge = new Batcher<Tuple<string, FileInfo, string>>(dateien.Elements.Length);
+            dateien.ForEach(t =>
+                                {
+                                    var suchvorgang = _suchvorgänge[t.Item1];
+                                    var filterauftrag = new Tuple<string, FileInfo, string>(t.Item1, t.Item2, suchvorgang.Abfrage);
+                                    filteraufträge.Add(filterauftrag);
+                                });
+            return filteraufträge.Grab();
         } 
 
 
-        public void Filtern(Tuple<string, FileInfo, string> input, Action<Tuple<string, FileInfo>> gefunden)
+        public void Filtern(Batch<Tuple<string, FileInfo, string>> aufträge, Action<Tuple<string, FileInfo>> gefunden)
         {
-            var datei = input.Item2;
-            var abfrage = input.Item3;
+            aufträge.ForEach(t =>
+                                 {
+                                     var datei = t.Item2;
+                                     var abfrage = t.Item3;
 
-            if (datei.Name.IndexOf(abfrage) >= 0)
-                gefunden(new Tuple<string, FileInfo>(input.Item1, datei));
+                                     if (datei.Name.IndexOf(abfrage) >= 0)
+                                         gefunden(new Tuple<string, FileInfo>(t.Item1, datei));
+                                 });
         } 
 
 

@@ -61,6 +61,7 @@
     </Compile>
     <Compile Include="Operationen\Datei.cs" />
     <Compile Include="Operationen\Dateisystem.cs" />
+    <Compile Include="Operationen\Batcher.cs" />
     <Compile Include="Operationen\Suchmaschine.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

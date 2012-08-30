@@ -37,9 +37,9 @@ namespace Dateisuche
 
                             .AddFunc<Suchanfrage, Tuple<string, string>>("Suchvorgang_starten", suchmaschine.Suchvorgang_starten)
 
-                            .AddAction<Tuple<string, string>, Statusmeldung, Tuple<string, string>>("Pruefung_registrieren", suchmaschine.Prüfung_registrieren)
-                            .AddFunc<Tuple<string, FileInfo>, Tuple<string, FileInfo, string>>("Abfrage_beimischen", suchmaschine.Abfrage_beimischen)
-                            .AddAction<Tuple<string, FileInfo, string>, Tuple<string, FileInfo>>("Filtern", suchmaschine.Filtern)
+                            .AddAction<Batch<Tuple<string, string>>, Statusmeldung, Batch<Tuple<string, string>>>("Pruefung_registrieren", suchmaschine.Prüfung_registrieren)
+                            .AddFunc<Batch<Tuple<string, FileInfo>>, Batch<Tuple<string, FileInfo, string>>>("Abfrage_beimischen", suchmaschine.Abfrage_beimischen)
+                            .AddAction<Batch<Tuple<string, FileInfo, string>>, Tuple<string, FileInfo>>("Filtern", suchmaschine.Filtern)
                             .AddAction<Tuple<string, FileInfo>, Statusmeldung, Dateifund>("Fund_registrieren", suchmaschine.Fund_registrieren);
 
             using (var fr = new FlowRuntime(config))

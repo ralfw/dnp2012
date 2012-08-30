@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -18,23 +17,30 @@ namespace Dateisuche.Operationen
         }
 
 
-        public void Dateien_enummerieren(Tuple<string,string> input, Action<Tuple<string,string>> fürJedeDatei)
+        public void Dateien_enummerieren(Tuple<string,string> input, Action<Batch<Tuple<string, string>>> fürJedenDateistapel)
         {
             var id = input.Item1;
             var wurzelpfad = input.Item2;
 
             var dateipfade = Directory.GetFiles(wurzelpfad, _dateinamenschablone, SearchOption.AllDirectories);
 
-            dateipfade.ToList().ForEach(dpf => fürJedeDatei(new Tuple<string, string>(id, dpf)));
+            const int BATCH_SIZE = 1000;
+            var batcher = new Batcher<Tuple<string, string>>(BATCH_SIZE);
+            foreach (var dpf in dateipfade)
+            {
+                if (batcher.Add(new Tuple<string, string>(id, dpf)) == BatchStatus.Full)
+                    fürJedenDateistapel(batcher.Grab());
+            }
+            fürJedenDateistapel(batcher.Grab());
         }
 
 
-        [ParallelMethod("Dateisuche.Operationen.Dateisystem")] // Eigener Thread Pool, damit mehrere Enummerationen gleichzeitig stattfinden können
+        [ParallelMethod]
         public void Enummerieren(Tuple<string,string> input)
         {
-            Dateien_enummerieren(input, Datei);
+            Dateien_enummerieren(input, Dateien);
         }
 
-        public event Action<Tuple<string, string>> Datei;
+        public event Action<Batch<Tuple<string, string>>> Dateien;
     }
 }
