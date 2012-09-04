@@ -24,7 +24,7 @@ namespace Dateisuche.Operationen
 
             var dateipfade = Directory.GetFiles(wurzelpfad, _dateinamenschablone, SearchOption.AllDirectories);
 
-            const int BATCH_SIZE = 1000;
+            const int BATCH_SIZE = 50;
             var batcher = new Batcher<Tuple<string, string>>(BATCH_SIZE);
             foreach (var dpf in dateipfade)
             {

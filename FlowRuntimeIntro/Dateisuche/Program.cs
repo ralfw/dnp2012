@@ -9,6 +9,7 @@ using Dateisuche.Daten;
 using Dateisuche.Operationen;
 using npantarhei.runtime;
 using npantarhei.runtime.contract;
+using npantarhei.runtime.operations;
 
 namespace Dateisuche
 {
@@ -42,7 +43,9 @@ namespace Dateisuche
                             .AddAction<Batch<Tuple<string, FileInfo, string>>, Tuple<string, FileInfo>>("Filtern", suchmaschine.Filtern)
                             .AddAction<Tuple<string, FileInfo>, Statusmeldung, Dateifund>("Fund_registrieren", suchmaschine.Fund_registrieren);
 
-            using (var fr = new FlowRuntime(config))
+            var schedule = new Schedule_for_async_depthfirst_processing();
+
+            using (var fr = new FlowRuntime(config, schedule))
             {
                 //fr.Throttle(200);
 
