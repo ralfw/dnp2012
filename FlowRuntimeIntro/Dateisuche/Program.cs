@@ -43,11 +43,12 @@ namespace Dateisuche
                             .AddAction<Batch<Tuple<string, FileInfo, string>>, Tuple<string, FileInfo>>("Filtern", suchmaschine.Filtern)
                             .AddAction<Tuple<string, FileInfo>, Statusmeldung, Dateifund>("Fund_registrieren", suchmaschine.Fund_registrieren);
 
-            var schedule = new Schedule_for_async_depthfirst_processing();
+            //var schedule = new Schedule_for_async_depthfirst_processing();
+            var schedule = new Schedule_for_sync_depthfirst_processing();
 
             using (var fr = new FlowRuntime(config, schedule))
             {
-                //fr.Throttle(200);
+                fr.Throttle(20);
 
                 fr.Message += Console.WriteLine;
                 fr.UnhandledException += fr.CreateEventProcessor<FlowRuntimeException>(".error");
