@@ -11,10 +11,16 @@ using npantarhei.runtime.contract;
 
 namespace Dateisuche
 {
-    public partial class DlgDateisuche : Form
+    [EventBasedComponent]
+    public partial class GUI : Form
     {
-        public DlgDateisuche()
+        public static GUI Instance;
+
+
+        public GUI()
         {
+            GUI.Instance = this;
+
             InitializeComponent();
 
             txtWurzelpfad.Text = Environment.CurrentDirectory;

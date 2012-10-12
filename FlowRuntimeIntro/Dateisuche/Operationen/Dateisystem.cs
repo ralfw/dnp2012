@@ -6,6 +6,7 @@ using npantarhei.runtime.contract;
 
 namespace Dateisuche.Operationen
 {
+    [EventBasedComponent]
     class Dateisystem
     {
         private readonly string _dateinamenschablone;

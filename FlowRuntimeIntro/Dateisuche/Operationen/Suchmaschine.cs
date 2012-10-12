@@ -4,9 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Dateisuche.Daten;
+using npantarhei.runtime.contract;
 
 namespace Dateisuche.Operationen
 {
+    [InstanceOperations]
     class Suchmaschine
     {
         private class Suchvorgang
@@ -36,7 +38,7 @@ namespace Dateisuche.Operationen
         }
 
 
-        public void Prüfung_registrieren(Batch<Tuple<string, string>> batch, Action<Statusmeldung> melden, Action<Batch<Tuple<string, string>>> weitermachen)
+        public void Pruefung_registrieren(Batch<Tuple<string, string>> batch, Action<Statusmeldung> melden, Action<Batch<Tuple<string, string>>> weitermachen)
         {
             if (batch.IsEmpty) return;
 

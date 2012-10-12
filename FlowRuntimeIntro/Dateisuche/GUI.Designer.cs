@@ -1,6 +1,6 @@
 ﻿namespace Dateisuche
 {
-    partial class DlgDateisuche
+    partial class GUI
     {
         /// <summary>
         /// Required designer variable.

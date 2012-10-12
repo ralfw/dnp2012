@@ -7,6 +7,7 @@ using npantarhei.runtime.contract;
 
 namespace Dateisuche.Operationen
 {
+    [EventBasedComponent]
     class Datei
     {
         public void Laden(Batch<Tuple<string, string>> dateipfade)
