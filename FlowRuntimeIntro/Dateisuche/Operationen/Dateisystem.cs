@@ -11,37 +11,42 @@ namespace Dateisuche.Operationen
     {
         private readonly string _dateinamenschablone;
 
-        public Dateisystem() : this("*") {}
+        public Dateisystem() : this("*.*") {}
         public Dateisystem(string dateinamenschablone)
         {
             _dateinamenschablone = dateinamenschablone;
         }
 
 
-        public void Dateien_enummerieren(Tuple<string,string> input, Action<Batch<Tuple<string, string>>> fürJedenDateistapel)
-        {
-            var id = input.Item1;
-            var wurzelpfad = input.Item2;
-
-            var dateipfade = Directory.GetFiles(wurzelpfad, _dateinamenschablone, SearchOption.AllDirectories);
-
-            const int BATCH_SIZE = 50;
-            var batcher = new Batcher<Tuple<string, string>>(BATCH_SIZE);
-            foreach (var dpf in dateipfade)
-            {
-                if (batcher.Add(new Tuple<string, string>(id, dpf)) == BatchStatus.Full)
-                    fürJedenDateistapel(batcher.Grab());
-            }
-            fürJedenDateistapel(batcher.Grab());
-        }
-
-
         [ParallelMethod]
-        public void Enummerieren(Tuple<string,string> input)
+        public void Enummerieren(Tuple<string, string> input)
         {
-            Dateien_enummerieren(input, Dateien);
+            const int BATCH_SIZE = 5000;
+            var batcher = new Batcher<string>(BATCH_SIZE);
+
+            Dateien_enummerieren(input.Item1, input.Item2, batcher);
+
+            Dateien(batcher.GrabAsEndOfStream(input.Item1));
         }
 
-        public event Action<Batch<Tuple<string, string>>> Dateien;
+
+        internal void Dateien_enummerieren(string id, string pfad, Batcher<string> batcher)
+        {
+            var dir = new DirectoryInfo(pfad);
+
+            try
+            {
+                foreach (var file in dir.GetFiles(_dateinamenschablone))
+                    if (batcher.Add(file.FullName) == BatchStatus.Full)
+                        Dateien(batcher.Grab(id));
+
+                foreach (var subdir in dir.GetDirectories())
+                    Dateien_enummerieren(id, subdir.FullName, batcher);
+            }
+            catch(UnauthorizedAccessException ex) {}
+        }
+
+
+        public event Action<Batch<string>> Dateien;
     }
 }

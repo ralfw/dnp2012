@@ -10,26 +10,23 @@ namespace Dateisuche.Operationen
     [EventBasedComponent]
     class Datei
     {
-        public void Laden(Batch<Tuple<string, string>> dateipfade)
+        public void Laden(Batch<string> dateipfade)
         {
-            if (dateipfade.IsEmpty) return;
+            var dateien = new Batcher<FileInfo>(dateipfade.Elements.Length/5);
 
-            var dateien = new Batcher<Tuple<string, FileInfo>>(dateipfade.Elements.Length/5);
+            dateipfade.ForEach(t => {
+                                        var fi = new FileInfo(t);
 
-            dateipfade.ForEach(t =>
-                                   {
-                                       var id = t.Item1;
-                                       var dateipfad = t.Item2;
+                                        if (dateien.Add(fi) == BatchStatus.Full)
+                                            Geladen(dateien.Grab(dateipfade.CorrelationId));
+                                    });
 
-                                       var fi = new FileInfo(dateipfad);
-
-                                       if (dateien.Add(new Tuple<string, FileInfo>(id, fi)) == BatchStatus.Full)
-                                           Geladen(dateien.Grab());
-                                   });
-
-            Geladen(dateien.Grab());
+            if (dateipfade.GetType() == typeof(EndOfStreamBatch<string>))
+                Geladen(dateien.GrabAsEndOfStream(dateipfade.CorrelationId));
+            else
+                Geladen(dateien.Grab(dateipfade.CorrelationId));
         }
 
-        public event Action<Batch<Tuple<string, FileInfo>>> Geladen;
+        public event Action<Batch<FileInfo>> Geladen;
     }
 }

@@ -13,10 +13,12 @@ Dateien_pruefen.gefunden, .gefunden
 
 Dateien_pruefen
 ., Pruefung_registrieren
-Pruefung_registrieren.out0, .geprueft
-Pruefung_registrieren.out1, datei.Laden
+Pruefung_registrieren.melden, .geprueft
+Pruefung_registrieren.weitermachen, datei.Laden
 datei.Geladen, Abfrage_beimischen
 Abfrage_beimischen, Filtern
-Filtern, Fund_registrieren
-Fund_registrieren.out0, .geprueft
-Fund_registrieren.out1, .gefunden
+Filtern, Ende_des_Suchvorgangs_melden
+Ende_des_Suchvorgangs_melden.endeMelden, .geprueft
+Ende_des_Suchvorgangs_melden.gefunden, Fund_registrieren
+Fund_registrieren.melden, .geprueft
+Fund_registrieren.gefunden, .gefunden

@@ -7,7 +7,9 @@ namespace Dateisuche.Operationen
 {
     class Batch<T>
     {
-        public Batch(T[] elements) { Elements = elements; }
+        public Batch(T[] elements, string correlationId) { Elements = elements; CorrelationId = correlationId; }
+
+        public string CorrelationId { get; private set; }
         public T[] Elements { get; private set; }
 
         public bool IsEmpty { get { return Elements.Length == 0; } }
@@ -17,6 +19,12 @@ namespace Dateisuche.Operationen
             Elements.ToList().ForEach(execute);
         }
     }
+
+    class EndOfStreamBatch<T> : Batch<T>
+    {
+        public EndOfStreamBatch(T[] elements, string correlationId) : base(elements, correlationId) {}
+    }
+
 
     public enum BatchStatus
     {
@@ -47,14 +55,23 @@ namespace Dateisuche.Operationen
         {
             get { return _elements.Count >= _maxSize ? BatchStatus.Full : BatchStatus.SpaceLeft; }
         }
-        
-        
-        public Batch<T> Grab()
+
+
+        public Batch<T> Grab() { return Grab(""); } 
+        public Batch<T> Grab(string correlationId)
         {
-            var batch = new Batch<T>(_elements.ToArray());
+            var batch = new Batch<T>(_elements.ToArray(), correlationId);
             _elements = new List<T>();
             return batch;
         }
 
+
+        public EndOfStreamBatch<T> GrabAsEndOfStream() { return GrabAsEndOfStream(""); }
+        public EndOfStreamBatch<T> GrabAsEndOfStream(string correlationId)
+        {
+            var batch = new EndOfStreamBatch<T>(_elements.ToArray(), correlationId);
+            _elements = new List<T>();
+            return batch;
+        }
     }
 }

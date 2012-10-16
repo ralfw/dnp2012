@@ -29,14 +29,11 @@ namespace Dateisuche
                             .AddStreamsFrom("Dateisuche.root.flow", Assembly.GetExecutingAssembly())
                             .AddOperations(new AssemblyCrawler(Assembly.GetExecutingAssembly()));
 
-            //var schedule = new Schedule_for_async_depthfirst_processing();
-            var schedule = new Schedule_for_sync_depthfirst_processing();
-
-            using (var fr = new FlowRuntime(config, schedule))
+            using (var fr = new FlowRuntime(config))
             {
-                fr.Throttle(20);
+                //fr.Throttle(20);
 
-                fr.Message += Console.WriteLine;
+                //fr.Message += Console.WriteLine;
                 fr.UnhandledException += fr.CreateEventProcessor<FlowRuntimeException>(".error");
 
                 Application.Run(GUI.Instance);

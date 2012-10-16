@@ -38,52 +38,81 @@ namespace Dateisuche.Operationen
         }
 
 
-        public void Pruefung_registrieren(Batch<Tuple<string, string>> batch, Action<Statusmeldung> melden, Action<Batch<Tuple<string, string>>> weitermachen)
+        public void Pruefung_registrieren(Batch<string> batch, Action<Statusmeldung> melden, Action<Batch<string>> weitermachen)
         {
-            if (batch.IsEmpty) return;
+            if (!batch.IsEmpty)
+            {
+                var suchvorgang = _suchvorgänge[batch.CorrelationId];
+                suchvorgang.DateienGeprüft += batch.Elements.Length;
 
-            var suchvorgang = _suchvorgänge[batch.Elements[0].Item1];
-            suchvorgang.DateienGeprüft += batch.Elements.Length;
-
-            var status = new Statusmeldung
-                            {
-                                SuchauftragId = batch.Elements[0].Item1,
-                                DateienGefunden = suchvorgang.DateienGefunden,
-                                DateienGeprüft = suchvorgang.DateienGeprüft,
-                                Abfrage = suchvorgang.Abfrage,
-                                InBearbeitung = suchvorgang.InBearbeitung,
-                                Verzeichnispfad = Path.GetDirectoryName(batch.Elements[0].Item2)
-                            };
-            melden(status);
+                var status = new Statusmeldung
+                                 {
+                                     SuchauftragId = batch.CorrelationId,
+                                     DateienGefunden = suchvorgang.DateienGefunden,
+                                     DateienGeprüft = suchvorgang.DateienGeprüft,
+                                     Abfrage = suchvorgang.Abfrage,
+                                     InBearbeitung = suchvorgang.InBearbeitung,
+                                     Verzeichnispfad = Path.GetDirectoryName(batch.Elements[0])
+                                 };
+                melden(status);
+            }
 
             weitermachen(batch);
         }
 
 
-        public Batch<Tuple<string, FileInfo, string>> Abfrage_beimischen(Batch<Tuple<string,FileInfo>> dateien)
+        public Batch<Tuple<FileInfo, string>> Abfrage_beimischen(Batch<FileInfo> dateien)
         {
-            var filteraufträge = new Batcher<Tuple<string, FileInfo, string>>(dateien.Elements.Length);
+            var filteraufträge = new Batcher<Tuple<FileInfo, string>>(dateien.Elements.Length);
             dateien.ForEach(t =>
                                 {
-                                    var suchvorgang = _suchvorgänge[t.Item1];
-                                    var filterauftrag = new Tuple<string, FileInfo, string>(t.Item1, t.Item2, suchvorgang.Abfrage);
+                                    var suchvorgang = _suchvorgänge[dateien.CorrelationId];
+                                    var filterauftrag = new Tuple<FileInfo, string>(t, suchvorgang.Abfrage);
                                     filteraufträge.Add(filterauftrag);
                                 });
-            return filteraufträge.Grab();
+            if (dateien.GetType() == typeof(EndOfStreamBatch<FileInfo>))
+                return filteraufträge.GrabAsEndOfStream(dateien.CorrelationId);
+            return filteraufträge.Grab(dateien.CorrelationId);
         } 
 
 
-        public void Filtern(Batch<Tuple<string, FileInfo, string>> aufträge, Action<Tuple<string, FileInfo>> gefunden)
+        public void Filtern(Batch<Tuple<FileInfo, string>> aufträge, Action<Tuple<string,FileInfo>> gefunden)
         {
             aufträge.ForEach(t =>
-                                 {
-                                     var datei = t.Item2;
-                                     var abfrage = t.Item3;
+                                    {
+                                        var datei = t.Item1;
+                                        var abfrage = t.Item2;
 
-                                     if (datei.Name.IndexOf(abfrage) >= 0)
-                                         gefunden(new Tuple<string, FileInfo>(t.Item1, datei));
-                                 });
+                                        if (datei.Name.IndexOf(abfrage) >= 0)
+                                            gefunden(new Tuple<string, FileInfo>(aufträge.CorrelationId, datei));
+                                    });
+
+            if (aufträge.GetType() == typeof(EndOfStreamBatch<Tuple<FileInfo,string>>))
+                gefunden(new Tuple<string, FileInfo>(aufträge.CorrelationId, null));
         } 
+
+
+        public void Ende_des_Suchvorgangs_melden(Tuple<string, FileInfo> input, Action<Statusmeldung> endeMelden, Action<Tuple<string,FileInfo>> gefunden)
+        {
+            if (input.Item2 == null)
+            {
+                var suchvorgang = _suchvorgänge[input.Item1];
+                suchvorgang.InBearbeitung = false;
+
+                var status = new Statusmeldung
+                                    {
+                                        SuchauftragId = input.Item1,
+                                        DateienGefunden = suchvorgang.DateienGefunden,
+                                        DateienGeprüft = suchvorgang.DateienGeprüft,
+                                        Abfrage = suchvorgang.Abfrage,
+                                        InBearbeitung = suchvorgang.InBearbeitung,
+                                        Verzeichnispfad = ""
+                                    };
+                endeMelden(status);
+            }
+            else
+                gefunden(input);
+        }
 
 
         public void Fund_registrieren(Tuple<string, FileInfo> input, Action<Statusmeldung> melden, Action<Dateifund> gefunden)

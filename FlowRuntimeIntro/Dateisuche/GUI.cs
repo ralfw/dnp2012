@@ -38,11 +38,11 @@ namespace Dateisuche
         [DispatchedMethod]
         public void Status_aktualisieren(Statusmeldung statusmeldung)
         {
-            var statusmeldungstext = string.Format("{0}, {1}/{2}{3}, {4}", 
+            var statusmeldungstext = string.Format("{0}, {1}/{2}{3}{4}", 
                                                     statusmeldung.Abfrage, 
                                                     statusmeldung.DateienGefunden, statusmeldung.DateienGeprüft, 
                                                     statusmeldung.InBearbeitung ? "..." : "",
-                                                    statusmeldung.Verzeichnispfad);
+                                                    statusmeldung.Verzeichnispfad != "" ? ", " + statusmeldung.Verzeichnispfad : "");
 
             var auftragNode = Finde_Knoten_zum_Suchauftrag(statusmeldung.SuchauftragId);
             if (auftragNode == null)

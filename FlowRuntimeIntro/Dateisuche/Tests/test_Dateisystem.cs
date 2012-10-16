@@ -15,13 +15,19 @@ namespace Dateisuche.Tests
         {
             var sut = new Dateisystem("*.cs");
 
-            var results = new List<Batch<Tuple<string, string>>>();
-            sut.Dateien_enummerieren(new Tuple<string, string>("x", @"..\.."), results.Add);
+            var results = new List<Batch<string>>();
+            var batcher = new Batcher<string>(100);
 
-            Assert.AreEqual("x", results[0].Elements[0].Item1);
+            sut.Dateien += _ => { };
+            sut.Dateien_enummerieren("x", @"..\..", batcher);
+
+            results.Add(batcher.Grab("x"));
+
+            Assert.IsTrue(results.Count > 0);
+            Assert.AreEqual("x", results[0].CorrelationId);
             Assert.LessOrEqual(13, results[0].Elements.Length);
 
-            results[0].ForEach(r => Console.WriteLine(r.Item2));
+            results[0].ForEach(Console.WriteLine);
         }
     }
 }
