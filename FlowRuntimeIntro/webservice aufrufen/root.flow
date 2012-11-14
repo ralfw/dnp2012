@@ -1,0 +1,10 @@
+﻿/
+ui.konvertierungsangaben, konvertieren
+konvertieren, formatieren
+formatieren, ui.zeige_konvertierung
+
+konvertieren
+., angaben_parsen
+angaben_parsen, konvertierungsrate_ermitteln
+konvertierungsrate_ermitteln, umrechnen
+umrechnen, .
