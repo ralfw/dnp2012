@@ -50,6 +50,7 @@
     <Compile Include="Generator.cs" />
     <Compile Include="GeneratorStub.cs" />
     <Compile Include="IGeneratorStub.cs" />
+    <Compile Include="SyncMuxDemux.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

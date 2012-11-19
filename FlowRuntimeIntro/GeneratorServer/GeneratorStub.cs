@@ -1,26 +1,45 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
+using System.Threading;
 using npantarhei.runtime;
 using npantarhei.runtime.contract;
 
 namespace GeneratorServer
 {
-    public class GeneratorStub : IGeneratorStub
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
+    public class GeneratorStub : IGeneratorStub, IDisposable
     {
+        private readonly IFlowRuntime _fr;
+        private readonly SyncMuxDemux _mdux;
+
+
+        public GeneratorStub()
+        {
+            _fr = FlowRuntimeFactory.Beginner;
+            _fr.Message += Console.WriteLine;
+        
+            _mdux = new SyncMuxDemux();
+            _mdux.Muxed += _ => _fr.Process(_);
+
+            _fr.Result += _mdux.Demux;
+        }
+
+
         public string[] Generate(string request)
         {
-            using(var fr = FlowRuntimeFactory.Beginner)
-            {
-                fr.Message += Console.WriteLine;
+                var results = new List<IMessage>();
 
-                var resultMsgs = new List<IMessage>();
-                fr.Result += resultMsgs.Add;
+                _mdux.Process(".in", request, results.Add);
 
-                fr.Process(".in", request);
+                return results.Select(msg => (string) msg.Data).ToArray();
+        }
 
-                return resultMsgs.Select(msg => (string) msg.Data).ToArray();
-            }
+
+        public void Dispose()
+        {
+            _fr.Dispose();
         }
     }
 }
