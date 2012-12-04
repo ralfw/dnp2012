@@ -32,15 +32,15 @@ namespace WcfOperations
         private string _endpointAddress;
 
 
-        public static WcfPeer Create<T>(string endpointAddress) where T : IWcfPeerRole
-        {
-            var peer = new WcfPeer(endpointAddress);
-            var svh = new SingletonServiceHost(peer);
-            peer._serviceHost = svh;
-            svh.AddServiceEndpoint(typeof(IWcfPeer), new NetTcpBinding(), "net.tcp://" + endpointAddress);
-            svh.Open();
-            return peer;
-        }
+        //public static WcfPeer Create<T>(string endpointAddress) where T : IWcfPeerRole
+        //{
+        //    var peer = new WcfPeer(endpointAddress);
+        //    var svh = new SingletonServiceHost(peer);
+        //    peer._serviceHost = svh;
+        //    svh.AddServiceEndpoint(typeof(IWcfPeer), new NetTcpBinding(), "net.tcp://" + endpointAddress);
+        //    svh.Open();
+        //    return peer;
+        //}
 
 
         public WcfPeer(string endpointAddress) { _endpointAddress = endpointAddress; }

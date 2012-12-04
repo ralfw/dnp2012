@@ -8,10 +8,6 @@ namespace WcfOperations
     [ActiveOperation]
     public class WcfOperationReplacement : AOperation, IDisposable
     {
-
-
-
-
         private readonly IWcfOperationWrapperStub _remoteOperationWrapperService;
         private ServiceHost _localOperationReplacementService;
         private readonly string _originEndpointAddress;
@@ -19,16 +15,17 @@ namespace WcfOperations
 
 
         #region AOperation
-        public WcfOperationReplacement(string name, string originEndpointAddress, string destinationEndpointAddress) : base(name)
+        public WcfOperationReplacement(string name, string originEndpointAddress, string destinationEndpointAddress)
+            : base(name)
         {
-            _originEndpointAddress = originEndpointAddress;
+            //_originEndpointAddress = originEndpointAddress;
 
-            var cf = new ChannelFactory<IWcfOperationWrapperStub>(new NetTcpBinding(), "net.tcp://"+destinationEndpointAddress);
-            _remoteOperationWrapperService = cf.CreateChannel();
+            //var cf = new ChannelFactory<IWcfOperationWrapperStub>(new NetTcpBinding(), "net.tcp://" + destinationEndpointAddress);
+            //_remoteOperationWrapperService = cf.CreateChannel();
 
-            var svh = new ServiceHost(typeof(GeneratorStub));
-            svh.AddServiceEndpoint(typeof(IGeneratorStub), new NetTcpBinding(), "net.tcp://"+originEndpointAddress);
-            svh.Open();
+            //var svh = new ServiceHost(typeof(GeneratorStub));
+            //svh.AddServiceEndpoint(typeof(IGeneratorStub), new NetTcpBinding(), "net.tcp://" + originEndpointAddress);
+            //svh.Open();
         }
 
         protected override void Process(IMessage input, System.Action<IMessage> continueWith, System.Action<FlowRuntimeException> unhandledException)
