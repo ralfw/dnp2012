@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.ServiceModel;
 using System.Text;
+using InPlaceDistribution;
+using InPlaceDistribution.Wcf;
+using npantarhei.runtime;
+using npantarhei.runtime.config;
 
 namespace GeneratorServer
 {
@@ -10,14 +15,27 @@ namespace GeneratorServer
     {
         static void Main(string[] args)
         {
-            var svh = new ServiceHost(typeof(GeneratorStub));
-            svh.AddServiceEndpoint(typeof (IGeneratorStub), new NetTcpBinding(), "net.tcp://localhost:8000");
-            svh.Open();
+            Console.WriteLine("Generator service...");
 
-            Console.Write("Generator Server running - until ENTER is pressed");
-            Console.ReadLine();
+            var transceiver = new WcfHostTransceiver("localhost:8000");
 
-            svh.Close();
+            var config = new FlowRuntimeConfiguration()
+                                .AddOperations(new AssemblyCrawler(Assembly.GetExecutingAssembly()))
+                                .AddPushCausality("pushc")
+                                .AddPopCausality("popc")
+                                .AddFunc<Exception, string>("ExToString", ex => string.Format("{0}({1})", ex.InnerException.GetType().Name, ex.InnerException.Message))
+                                .AddStreamsFrom("GeneratorServer.root.flow", Assembly.GetExecutingAssembly());
+
+            using(var fr = new FlowRuntime(config))
+            using(new OperationHost(fr, transceiver, transceiver))
+            {
+                Console.WriteLine("[running]");
+
+                //fr.Message += Console.WriteLine;
+                //fr.UnhandledException += Console.WriteLine;
+
+                Console.ReadLine();
+            }
         }
     }
 }

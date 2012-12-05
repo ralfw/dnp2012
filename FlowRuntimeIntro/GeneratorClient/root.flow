@@ -1,0 +1,9 @@
+﻿/
+.run, ui.ask
+ui.exit, .exit
+ui.request, proxy#generate
+proxy#generate, ui.display 
+
+ui.requestException, proxy#generateException
+proxy#generateException, ui.display
+proxy#generateException.error, ui.error

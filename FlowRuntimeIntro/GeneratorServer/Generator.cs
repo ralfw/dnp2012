@@ -13,5 +13,11 @@ namespace GeneratorServer
                 results(string.Format("'{0}'", c));
             }
         }
+
+
+        public static void GenerateException(string req, Action<string> results)
+        {
+            throw new ApplicationException("aaarghhh!");
+        }
     }
 }

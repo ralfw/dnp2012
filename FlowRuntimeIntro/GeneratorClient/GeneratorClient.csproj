@@ -34,9 +34,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="npantarhei.runtime, Version=1.0.4720.27214, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\lib\npantarhei.runtime.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,12 +48,24 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeneratorServer\GeneratorServer.csproj">
       <Project>{827087CA-AA3F-4656-8A4D-6C8D7B47B92B}</Project>
       <Name>GeneratorServer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\InPlaceDistribution.Wcf\InPlaceDistribution.Wcf.csproj">
+      <Project>{29363976-1DD4-48DD-AB6E-54FBFE4E6FE3}</Project>
+      <Name>InPlaceDistribution.Wcf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\InPlaceDistribution\InPlaceDistribution.csproj">
+      <Project>{E85A75D8-C534-467E-98AC-CF0F8E0E708D}</Project>
+      <Name>InPlaceDistribution</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="root.flow" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

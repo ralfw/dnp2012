@@ -1,3 +1,10 @@
 ﻿/
-.in, generate
-generate, .out
+.@generate, generate
+generate, .@generate
+
+.@generateException, pushc
+pushc, generateException
+pushc.exception, exToString
+exToString, .error@generateException
+generateException, popc
+popc, .@generateException

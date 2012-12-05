@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.ServiceModel;
+using System.Reflection;
 using System.Text;
 using GeneratorServer;
+using InPlaceDistribution;
+using InPlaceDistribution.Wcf;
+using npantarhei.runtime;
+using npantarhei.runtime.config;
 
 namespace GeneratorClient
 {
@@ -11,20 +15,27 @@ namespace GeneratorClient
     {
         static void Main(string[] args)
         {
-            var cf = new ChannelFactory<IGeneratorStub>(new NetTcpBinding(), "net.tcp://localhost:8000");
-            var generatorProxy = cf.CreateChannel();
+            Console.WriteLine("Generator client...");
 
-            while(true)
+            var portnumber = 8100 + DateTime.Now.Second;
+            var transceiver = new WcfStandInTransceiver("localhost:" + portnumber, "localhost:8000");
+
+            var config = new FlowRuntimeConfiguration()
+                                .AddOperations(new AssemblyCrawler(Assembly.GetExecutingAssembly()))
+                                .AddStreamsFrom("GeneratorClient.root.flow", Assembly.GetExecutingAssembly())
+                                .AddOperation(new StandInOperation("proxy", transceiver, transceiver));
+
+            using(var fr = new FlowRuntime(config))
             {
-                Console.Write("req: "); var req = Console.ReadLine();
-                if (req == "") break;
+                Console.WriteLine("[running @ {0}]", portnumber);
 
-                var response = generatorProxy.Generate(req);
+                //fr.Message += Console.WriteLine;
+                //fr.UnhandledException += Console.WriteLine;
 
-                response.ToList().ForEach(Console.WriteLine);
+                fr.Process(".run");
+
+                fr.WaitForResult();
             }
-
-            (generatorProxy as ICommunicationObject).Close();
         }
     }
 }
