@@ -17,8 +17,6 @@ namespace GeneratorServer
         {
             Console.WriteLine("Generator service...");
 
-            var transceiver = new WcfHostTransceiver("localhost:8000");
-
             var config = new FlowRuntimeConfiguration()
                                 .AddOperations(new AssemblyCrawler(Assembly.GetExecutingAssembly()))
                                 .AddPushCausality("pushc")
@@ -27,7 +25,7 @@ namespace GeneratorServer
                                 .AddStreamsFrom("GeneratorServer.root.flow", Assembly.GetExecutingAssembly());
 
             using(var fr = new FlowRuntime(config))
-            using(new OperationHost(fr, transceiver, transceiver))
+            using(new WcfOperationHost(fr, "localhost:8000"))
             {
                 Console.WriteLine("[running]");
 

@@ -18,12 +18,10 @@ namespace GeneratorClient
             Console.WriteLine("Generator client...");
 
             var portnumber = 8100 + DateTime.Now.Second;
-            var transceiver = new WcfStandInTransceiver("localhost:" + portnumber, "localhost:8000");
-
             var config = new FlowRuntimeConfiguration()
                                 .AddOperations(new AssemblyCrawler(Assembly.GetExecutingAssembly()))
                                 .AddStreamsFrom("GeneratorClient.root.flow", Assembly.GetExecutingAssembly())
-                                .AddOperation(new StandInOperation("proxy", transceiver, transceiver));
+                                .AddOperation(new WcfStandInOperation("proxy", "localhost:"+portnumber, "localhost:8000"));
 
             using(var fr = new FlowRuntime(config))
             {
