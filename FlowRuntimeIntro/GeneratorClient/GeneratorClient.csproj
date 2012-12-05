@@ -51,6 +51,10 @@
     <Compile Include="UI.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GeneratorContract\GeneratorContract.csproj">
+      <Project>{0CB1ECAF-250A-401B-81CF-E6F94C9FC948}</Project>
+      <Name>GeneratorContract</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GeneratorServer\GeneratorServer.csproj">
       <Project>{827087CA-AA3F-4656-8A4D-6C8D7B47B92B}</Project>
       <Name>GeneratorServer</Name>

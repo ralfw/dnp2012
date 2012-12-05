@@ -61,7 +61,7 @@ namespace InPlaceDistribution.tests
 
                 var inputPort = new Port(input.Portname); // remoteOp.inputPort
                 var outputPortname = string.Format(inputPort.OperationName + "." + inputPort.Name + "-out"); // remoteOp.outputPort
-                var output = new HostOutput { CorrelationId = input.CorrelationId, Data = "<" + input.Data + ">", Portname = outputPortname};
+                var output = new HostOutput { CorrelationId = input.CorrelationId, Data = ("<" + input.Data.Deserialize() + ">").Serialize(), Portname = outputPortname};
                 sendOutput(output);
             }
         }

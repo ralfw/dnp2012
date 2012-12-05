@@ -2,20 +2,18 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{827087CA-AA3F-4656-8A4D-6C8D7B47B92B}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{0CB1ECAF-250A-401B-81CF-E6F94C9FC948}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GeneratorServer</RootNamespace>
-    <AssemblyName>GeneratorServer</AssemblyName>
+    <RootNamespace>GeneratorContract</RootNamespace>
+    <AssemblyName>GeneratorContract</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,8 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -34,12 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="npantarhei.runtime">
-      <HintPath>..\lib\npantarhei.runtime.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,26 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Generator.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Answer.cs" />
+    <Compile Include="Request.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="root.flow" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GeneratorContract\GeneratorContract.csproj">
-      <Project>{0CB1ECAF-250A-401B-81CF-E6F94C9FC948}</Project>
-      <Name>GeneratorContract</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\InPlaceDistribution.Wcf\InPlaceDistribution.Wcf.csproj">
-      <Project>{29363976-1DD4-48DD-AB6E-54FBFE4E6FE3}</Project>
-      <Name>InPlaceDistribution.Wcf</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\InPlaceDistribution\InPlaceDistribution.csproj">
-      <Project>{E85A75D8-C534-467E-98AC-CF0F8E0E708D}</Project>
-      <Name>InPlaceDistribution</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

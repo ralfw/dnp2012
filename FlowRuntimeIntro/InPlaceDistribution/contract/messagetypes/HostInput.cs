@@ -7,7 +7,7 @@ namespace InPlaceDistribution.contract.messagetypes
     public class HostInput
     {
         public string Portname;
-        public string Data;
+        public byte[] Data;
         public Guid CorrelationId;
         public string StandInEndpointAddress;
     }

@@ -16,9 +16,7 @@ namespace InPlaceDistribution.translators
         public void Process_remote_input(HostInput input)
         {
             _cache.Add(input.CorrelationId, input.StandInEndpointAddress);
-
-            //TODO: deserialization of data
-            var msg = new Message(input.Portname.StandInPortnameToInputPortname(), input.Data, input.CorrelationId);
+            var msg = new Message(input.Portname.StandInPortnameToInputPortname(), input.Data.Deserialize(), input.CorrelationId);
             Translated_input(msg);
         }
 
@@ -28,8 +26,7 @@ namespace InPlaceDistribution.translators
         public void Process_local_output(IMessage message)
         {
             var standInEndpointAddress = _cache.Get(message.CorrelationId);
-            //TODO: serialization of data
-            var output = new HostOutput { Portname = message.Port.OutputPortToStandInPortname(), Data = message.Data.ToString(), CorrelationId = message.CorrelationId};
+            var output = new HostOutput { Portname = message.Port.OutputPortToStandInPortname(), Data = message.Data.Serialize(), CorrelationId = message.CorrelationId};
             Translated_output(new Tuple<string, HostOutput>(standInEndpointAddress, output));
         }
 

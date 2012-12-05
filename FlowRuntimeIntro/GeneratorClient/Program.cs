@@ -29,8 +29,8 @@ namespace GeneratorClient
             {
                 Console.WriteLine("[running @ {0}]", portnumber);
 
-                //fr.Message += Console.WriteLine;
-                //fr.UnhandledException += Console.WriteLine;
+                fr.Message += Console.WriteLine;
+                fr.UnhandledException += Console.WriteLine;
 
                 fr.Process(".run");
 

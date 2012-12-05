@@ -30,12 +30,12 @@ namespace InPlaceDistribution.tests
                 Tuple<string, HostOutput> result = null;
                 sut.Translated_output += _ => result = _;
 
-                var input = new HostInput { CorrelationId = Guid.NewGuid(), Data = "hello", Portname = "op.receive", StandInEndpointAddress = "localhost:1234"};
+                var input = new HostInput { CorrelationId = Guid.NewGuid(), Data = "hello".Serialize(), Portname = "op.receive", StandInEndpointAddress = "localhost:1234"};
                 sut.Process_remote_input(input);
 
                 Assert.AreEqual("localhost:1234", result.Item1);
                 Assert.AreEqual(input.CorrelationId, result.Item2.CorrelationId);
-                Assert.AreEqual("<hello>", result.Item2.Data);
+                Assert.AreEqual("<hello>".Serialize(), result.Item2.Data);
                 Assert.AreEqual("op.send", result.Item2.Portname);
             }
         }

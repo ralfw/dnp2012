@@ -34,8 +34,7 @@ namespace InPlaceDistribution.translators
 
             var ctx = new FlowContext {StandInOperationName = outputMsg.Port.OperationName, CorrelationId = outputMsg.CorrelationId, Priority = outputMsg.Priority, Causalities = outputMsg.Causalities, FlowStack = outputMsg.FlowStack};
             _cache.Add(corrId, ctx);
-            //TODO: serialization of data
-            var input = new HostInput {Portname = outputMsg.Port.OutputPortToRemotePortname(), Data = outputMsg.Data.ToString(), CorrelationId = corrId, StandInEndpointAddress = _standInEndpointAddress};
+            var input = new HostInput {Portname = outputMsg.Port.OutputPortToRemotePortname(), Data = outputMsg.Data.Serialize(), CorrelationId = corrId, StandInEndpointAddress = _standInEndpointAddress};
             Translated_output(input);
         }
 
@@ -47,7 +46,7 @@ namespace InPlaceDistribution.translators
             var ctx = _cache.Get(output.CorrelationId);
 
             var port = output.Portname.RemotePortnameToInputPort(ctx.StandInOperationName);
-            var inputMsg = new Message(port, output.Data, ctx.CorrelationId)
+            var inputMsg = new Message(port, output.Data.Deserialize(), ctx.CorrelationId)
                                       {Priority = ctx.Priority, 
                                        Causalities = ctx.Causalities, 
                                        FlowStack = ctx.FlowStack};

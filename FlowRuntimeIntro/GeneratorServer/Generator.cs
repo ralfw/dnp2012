@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using GeneratorContract;
 using npantarhei.runtime.contract;
 
 namespace GeneratorServer
@@ -18,6 +21,13 @@ namespace GeneratorServer
         public static void GenerateException(string req, Action<string> results)
         {
             throw new ApplicationException("aaarghhh!");
+        }
+
+
+        public static Answer GenerateAll(Question question)
+        {
+            var parts = question.Text.Select(c => string.Format("'{0}'", c)).ToList();
+            return new Answer {Parts = parts};
         }
     }
 }

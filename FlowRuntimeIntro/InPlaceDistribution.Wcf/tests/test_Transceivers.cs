@@ -19,9 +19,9 @@ namespace InPlaceDistribution.Wcf.tests
                 HostInput input = null;
                 host.ReceivedFromStandIn += _ => input = _;
  
-                standIn.SendToHost(new HostInput {Data = "hello"});
+                standIn.SendToHost(new HostInput {Data = new byte[]{4,2}});
 
-                Assert.AreEqual("hello", input.Data);
+                Assert.AreEqual(new byte[]{4,2}, input.Data);
             }
         }
 
@@ -35,9 +35,9 @@ namespace InPlaceDistribution.Wcf.tests
                 HostOutput output = null;
                 standIn.ReceivedFromHost += _ => output = _;
 
-                host.SendToStandIn(new Tuple<string, HostOutput>("localhost:8001", new HostOutput{Data = "hello"}));
+                host.SendToStandIn(new Tuple<string, HostOutput>("localhost:8001", new HostOutput{Data = new byte[]{4,2}}));
 
-                Assert.AreEqual("hello", output.Data);
+                Assert.AreEqual(new byte[]{4,2}, output.Data);
             }
         }
     }

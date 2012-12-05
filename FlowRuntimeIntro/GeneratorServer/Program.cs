@@ -31,8 +31,8 @@ namespace GeneratorServer
             {
                 Console.WriteLine("[running]");
 
-                //fr.Message += Console.WriteLine;
-                //fr.UnhandledException += Console.WriteLine;
+                fr.Message += Console.WriteLine;
+                fr.UnhandledException += Console.WriteLine;
 
                 Console.ReadLine();
             }

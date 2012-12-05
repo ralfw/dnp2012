@@ -62,6 +62,7 @@
     <Compile Include="contract\messagetypes\HostOutput.cs" />
     <Compile Include="translators\HostTranslator.cs" />
     <Compile Include="translators\PortnameExtensions.cs" />
+    <Compile Include="translators\SerializationExtension.cs" />
     <Compile Include="translators\StandInTranslator.cs" />
     <Compile Include="tests\test_CorrelationCache.cs" />
     <Compile Include="tests\test_HostTranslator.cs" />
