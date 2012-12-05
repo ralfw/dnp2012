@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfOperations", "WcfOperati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InPlaceDistribution", "InPlaceDistribution\InPlaceDistribution.csproj", "{E85A75D8-C534-467E-98AC-CF0F8E0E708D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InPlaceDistribution.Wcf", "InPlaceDistribution.Wcf\InPlaceDistribution.Wcf.csproj", "{29363976-1DD4-48DD-AB6E-54FBFE4E6FE3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -173,6 +175,16 @@ Global
 		{E85A75D8-C534-467E-98AC-CF0F8E0E708D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E85A75D8-C534-467E-98AC-CF0F8E0E708D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E85A75D8-C534-467E-98AC-CF0F8E0E708D}.Release|x86.ActiveCfg = Release|Any CPU
+		{29363976-1DD4-48DD-AB6E-54FBFE4E6FE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29363976-1DD4-48DD-AB6E-54FBFE4E6FE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29363976-1DD4-48DD-AB6E-54FBFE4E6FE3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{29363976-1DD4-48DD-AB6E-54FBFE4E6FE3}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{29363976-1DD4-48DD-AB6E-54FBFE4E6FE3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{29363976-1DD4-48DD-AB6E-54FBFE4E6FE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29363976-1DD4-48DD-AB6E-54FBFE4E6FE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29363976-1DD4-48DD-AB6E-54FBFE4E6FE3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{29363976-1DD4-48DD-AB6E-54FBFE4E6FE3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{29363976-1DD4-48DD-AB6E-54FBFE4E6FE3}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -190,5 +202,6 @@ Global
 		{827087CA-AA3F-4656-8A4D-6C8D7B47B92B} = {94A0A132-E7B7-4547-B3C7-25DA563D2BA6}
 		{AADFD7CF-11D0-48E1-B865-D190033F3BFD} = {94A0A132-E7B7-4547-B3C7-25DA563D2BA6}
 		{E85A75D8-C534-467E-98AC-CF0F8E0E708D} = {94A0A132-E7B7-4547-B3C7-25DA563D2BA6}
+		{29363976-1DD4-48DD-AB6E-54FBFE4E6FE3} = {94A0A132-E7B7-4547-B3C7-25DA563D2BA6}
 	EndGlobalSection
 EndGlobal

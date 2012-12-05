@@ -3,14 +3,11 @@ using System.Runtime.Serialization;
 
 namespace InPlaceDistribution.contract.messagetypes
 {
-    [DataContract]
+    [Serializable]
     public class HostOutput
     {
-        [DataMember]
         public string Portname;
-        [DataMember]
         public string Data;
-        [DataMember]
         public Guid CorrelationId;
     }
 }
