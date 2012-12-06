@@ -9,23 +9,49 @@ namespace InPlaceDistribution.Wcf.services
 {
     class ChannelDispenser : IDisposable
     {
-        readonly Dictionary<string, IService<HostOutput>> _cache = new Dictionary<string, IService<HostOutput>>();
- 
+        internal struct Channel
+        {
+            public IService<HostOutput> StandIn;
+            public DateTime ExpiresAt;
+        }
+
+        readonly Dictionary<string, Channel> _cache = new Dictionary<string, Channel>();
+        private int _gcCounter;
+        private const int GC_FREQUENCY = 1000;
+
+
         public IService<HostOutput> Get(string standInEndpointAddress)
         {
-            IService<HostOutput> standIn;
-            if (!_cache.TryGetValue(standInEndpointAddress, out standIn))
+            lock (_cache)
             {
-                var cf = new ChannelFactory<IService<HostOutput>>(new NetTcpBinding(), "net.tcp://" + standInEndpointAddress);
-                standIn = cf.CreateChannel();
-                _cache.Add(standInEndpointAddress, standIn);
+                if (++_gcCounter % GC_FREQUENCY == 0) CollectGarbage();
+
+                Channel ch;
+                if (!_cache.TryGetValue(standInEndpointAddress, out ch))
+                {
+                    var cf = new ChannelFactory<IService<HostOutput>>(new NetTcpBinding(), "net.tcp://" + standInEndpointAddress);
+                    ch = new Channel{StandIn = cf.CreateChannel(), ExpiresAt = DateTime.Now.AddSeconds(60)};
+                    _cache.Add(standInEndpointAddress, ch);
+                }
+                return ch.StandIn;
             }
-            return standIn;
         } 
+
+
+        internal void CollectGarbage()
+        {
+            var keysOfExprired = _cache.Select(_ => new {_.Key, _.Value.ExpiresAt})
+                                       .Where(_ => _.ExpiresAt <= DateTime.Now)
+                                       .Select(_ => _.Key)
+                                       .ToArray();
+            foreach (var key in keysOfExprired)
+                _cache.Remove(key);
+        }
+
 
         public void Dispose()
         {
-            foreach(var standIn in _cache.Select(_ => _.Value))
+            foreach(var standIn in _cache.Select(_ => _.Value.StandIn))
                 (standIn as ICommunicationObject).Close();
         }
     }

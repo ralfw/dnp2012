@@ -4,9 +4,15 @@ ui.exit, .exit
 ui.request, proxy#generate
 proxy#generate, ui.display 
 
-ui.requestException, proxy#generateException
-proxy#generateException, ui.display
-proxy#generateException.error, ui.error
+ui.requestException, try
+try.success, ui.display
+try.error, ui.error
 
 ui.requestAll, proxy#generateAll
 proxy#generateAll, ui.displayAll
+
+
+try
+., proxy#generateException
+proxy#generateException, .success
+proxy#generateException.error, .error
