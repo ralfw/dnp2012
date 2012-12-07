@@ -18,6 +18,7 @@ namespace InPlaceDistribution.translators
         internal List<Element> _cache = new List<Element>();
 
         private const int GC_FREQUENCY = 1000;
+        private const int INITIAL_LIFESPAN_SEC = 60;
         private int _gcCounter;
 
 
@@ -26,7 +27,7 @@ namespace InPlaceDistribution.translators
             lock (_cache)
             {
                 if (++_gcCounter % GC_FREQUENCY == 0) CollectGarbage();
-                _cache.Add(new Element{CorrelationId = correlationId, Data = data, ExpiresAt = DateTime.Now.AddSeconds(60)});
+                _cache.Add(new Element { CorrelationId = correlationId, Data = data, ExpiresAt = DateTime.Now.AddSeconds(INITIAL_LIFESPAN_SEC) });
             }
         }
 
@@ -35,6 +36,7 @@ namespace InPlaceDistribution.translators
         {
             lock (_cache)
             {
+                //TODO: extend life span with use
                 return _cache.First(e => e.CorrelationId == correlationId).Data;
             }
         }

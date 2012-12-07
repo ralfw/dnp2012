@@ -12,6 +12,7 @@ namespace InPlaceDistribution.translators
     {
         class FlowContext
         {
+            public string Path;
             public string StandInOperationName;
             public Guid CorrelationId;
             public int Priority;
@@ -32,7 +33,7 @@ namespace InPlaceDistribution.translators
         {
             var corrId = Guid.NewGuid();
 
-            var ctx = new FlowContext {StandInOperationName = outputMsg.Port.OperationName, CorrelationId = outputMsg.CorrelationId, Priority = outputMsg.Priority, Causalities = outputMsg.Causalities, FlowStack = outputMsg.FlowStack};
+            var ctx = new FlowContext {Path = outputMsg.Port.Path, StandInOperationName = outputMsg.Port.OperationName, CorrelationId = outputMsg.CorrelationId, Priority = outputMsg.Priority, Causalities = outputMsg.Causalities, FlowStack = outputMsg.FlowStack};
             _cache.Add(corrId, ctx);
             var input = new HostInput {Portname = outputMsg.Port.OutputPortToRemotePortname(), Data = outputMsg.Data.Serialize(), CorrelationId = corrId, StandInEndpointAddress = _standInEndpointAddress};
             Translated_output(input);
@@ -45,11 +46,11 @@ namespace InPlaceDistribution.translators
         {
             var ctx = _cache.Get(output.CorrelationId);
 
-            var port = output.Portname.RemotePortnameToInputPort(ctx.StandInOperationName);
-            var inputMsg = new Message(port, output.Data.Deserialize(), ctx.CorrelationId)
-                                      {Priority = ctx.Priority, 
-                                       Causalities = ctx.Causalities, 
-                                       FlowStack = ctx.FlowStack};
+            var port = output.Portname.RemotePortnameToInputPort(ctx.Path, ctx.StandInOperationName);
+            var inputMsg = new ContextualizedMessage(port, output.Data.Deserialize(), ctx.CorrelationId)
+                                                     {Priority = ctx.Priority, 
+                                                      Causalities = ctx.Causalities, 
+                                                      FlowStack = ctx.FlowStack};
             Translated_input(inputMsg);
         }
 

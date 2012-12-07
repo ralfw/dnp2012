@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="npantarhei.runtime, Version=1.0.4720.27214, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="npantarhei.runtime">
       <HintPath>..\lib\npantarhei.runtime.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -62,10 +62,6 @@
     <ProjectReference Include="..\InPlaceDistribution.Wcf\InPlaceDistribution.Wcf.csproj">
       <Project>{29363976-1DD4-48DD-AB6E-54FBFE4E6FE3}</Project>
       <Name>InPlaceDistribution.Wcf</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\InPlaceDistribution\InPlaceDistribution.csproj">
-      <Project>{E85A75D8-C534-467E-98AC-CF0F8E0E708D}</Project>
-      <Name>InPlaceDistribution</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

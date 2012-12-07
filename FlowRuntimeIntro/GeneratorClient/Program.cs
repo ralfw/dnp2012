@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using GeneratorContract;
 using GeneratorServer;
 using InPlaceDistribution;
 using InPlaceDistribution.Wcf;
 using npantarhei.runtime;
 using npantarhei.runtime.config;
+using npantarhei.runtime.contract;
 
 namespace GeneratorClient
 {

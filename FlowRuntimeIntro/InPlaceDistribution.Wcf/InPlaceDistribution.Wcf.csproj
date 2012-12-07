@@ -31,7 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="npantarhei.runtime, Version=1.0.4722.18591, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="npantarhei.runtime, Version=1.0.4723.18876, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\npantarhei.runtime.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
@@ -51,7 +52,6 @@
     <Compile Include="contract\IHostService.cs" />
     <Compile Include="contract\IService.cs" />
     <Compile Include="contract\IStandInService.cs" />
-    <Compile Include="services\HostService.cs" />
     <Compile Include="services\Service.cs" />
     <Compile Include="services\SingletonServiceHost.cs" />
     <Compile Include="tests\test_Transceivers.cs" />

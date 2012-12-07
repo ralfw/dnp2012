@@ -27,10 +27,13 @@ namespace InPlaceDistribution.translators
             return string.Format("{0}{1}", port.InstanceNumber, port.Name == "" ? "" : "."+port.Name);
         }
 
-        public static IPort RemotePortnameToInputPort(this string portname, string standInOperationName)
+        public static IPort RemotePortnameToInputPort(this string portname, string path, string standInOperationName)
         {
             var remotePort = new Port(portname);
-            return new Port(string.Format("{0}#{1}{2}", standInOperationName, remotePort.OperationName, remotePort.Name == "" ? "" : "."+remotePort.Name));
+            return new Port(string.Format("{0}{1}#{2}{3}", path == "" ? "" : path + "/",
+                                                           standInOperationName, 
+                                                           remotePort.OperationName, 
+                                                           remotePort.Name == "" ? "" : "."+remotePort.Name));
         }
     }
 }

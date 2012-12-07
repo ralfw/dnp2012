@@ -63,10 +63,6 @@
       <Project>{29363976-1DD4-48DD-AB6E-54FBFE4E6FE3}</Project>
       <Name>InPlaceDistribution.Wcf</Name>
     </ProjectReference>
-    <ProjectReference Include="..\InPlaceDistribution\InPlaceDistribution.csproj">
-      <Project>{E85A75D8-C534-467E-98AC-CF0F8E0E708D}</Project>
-      <Name>InPlaceDistribution</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

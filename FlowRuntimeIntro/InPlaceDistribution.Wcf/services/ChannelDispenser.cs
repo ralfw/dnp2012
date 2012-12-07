@@ -18,6 +18,7 @@ namespace InPlaceDistribution.Wcf.services
         readonly Dictionary<string, Channel> _cache = new Dictionary<string, Channel>();
         private int _gcCounter;
         private const int GC_FREQUENCY = 1000;
+        private const int INITIAL_LIFESPAN_SEC = 60;
 
 
         public IService<HostOutput> Get(string standInEndpointAddress)
@@ -30,7 +31,7 @@ namespace InPlaceDistribution.Wcf.services
                 if (!_cache.TryGetValue(standInEndpointAddress, out ch))
                 {
                     var cf = new ChannelFactory<IService<HostOutput>>(new NetTcpBinding(), "net.tcp://" + standInEndpointAddress);
-                    ch = new Channel{StandIn = cf.CreateChannel(), ExpiresAt = DateTime.Now.AddSeconds(60)};
+                    ch = new Channel { StandIn = cf.CreateChannel(), ExpiresAt = DateTime.Now.AddSeconds(INITIAL_LIFESPAN_SEC) };
                     _cache.Add(standInEndpointAddress, ch);
                 }
                 return ch.StandIn;
@@ -40,12 +41,14 @@ namespace InPlaceDistribution.Wcf.services
 
         internal void CollectGarbage()
         {
-            var keysOfExprired = _cache.Select(_ => new {_.Key, _.Value.ExpiresAt})
+            var expiredChannels = _cache.Select(_ => new {_.Key, _.Value.StandIn, _.Value.ExpiresAt})
                                        .Where(_ => _.ExpiresAt <= DateTime.Now)
-                                       .Select(_ => _.Key)
                                        .ToArray();
-            foreach (var key in keysOfExprired)
-                _cache.Remove(key);
+            foreach (var ch in expiredChannels)
+            {
+                (ch.StandIn as ICommunicationObject).Close();
+                _cache.Remove(ch.Key);
+            }
         }
 
 
